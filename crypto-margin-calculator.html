@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Primary SEO -->
+<title>Crypto Margin Calculator — Hyperliquid Cross & Isolated | MyFXBack</title>
+<meta name="description" content="Free crypto margin calculator for Hyperliquid perp trading. Instantly calculate required margin, liquidation price, max position size, and PnL for cross and isolated margin modes." />
+<meta name="keywords" content="crypto margin calculator, hyperliquid margin calculator, hyperliquid liquidation price, crypto leverage calculator, hyperliquid position size calculator, isolated margin calculator, cross margin calculator" />
+<link rel="canonical" href="https://myfxback.com/tools/crypto-margin-calculator" />
+<meta name="google-site-verification" content="qSQCoNIjm5Ote18Fen80uln-VZlDPKUq_UO8huQj0EA" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Crypto Margin Calculator — Hyperliquid Cross & Isolated" />
+<meta property="og:description" content="Calculate required margin, liquidation price, max position size and PnL for Hyperliquid perp trades. Supports cross and isolated margin." />
+<meta property="og:url" content="https://myfxback.com/tools/crypto-margin-calculator" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://myfxback.com/og-crypto-margin-calculator.png" />
+<meta property="og:site_name" content="MyFXBack" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Crypto Margin Calculator — Hyperliquid" />
+<meta name="twitter:description" content="Free crypto margin calculator for Hyperliquid perp trading. Cross & isolated margin, liquidation price, PnL estimator." />
+<meta name="twitter:image" content="https://myfxback.com/og-crypto-margin-calculator.png" />
+
+<!-- Schema: WebPage + BreadcrumbList + FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://myfxback.com/tools/crypto-margin-calculator",
+      "url": "https://myfxback.com/tools/crypto-margin-calculator",
+      "name": "Crypto Margin Calculator — Hyperliquid Cross & Isolated",
+      "description": "Free crypto margin calculator for Hyperliquid perp trading. Calculate required margin, liquidation price, max position size, and PnL.",
+      "inLanguage": "en",
+      "isPartOf": { "@id": "https://myfxback.com" },
+      "breadcrumb": { "@id": "https://myfxback.com/tools/crypto-margin-calculator#breadcrumb" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://myfxback.com/tools/crypto-margin-calculator#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myfxback.com" },
+        { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://myfxback.com/tools" },
+        { "@type": "ListItem", "position": 3, "name": "Crypto Margin Calculator", "item": "https://myfxback.com/tools/crypto-margin-calculator" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a crypto margin calculator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A crypto margin calculator helps traders determine how much collateral (margin) is required to open a leveraged position, at what price their position will be liquidated, how large a position they can open with their available balance, and the estimated profit or loss at a given target or stop-loss price."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between cross margin and isolated margin on Hyperliquid?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In cross margin mode, your entire wallet balance acts as collateral for all open positions. This reduces liquidation risk for any single position but means a losing trade can drain your entire balance. In isolated margin mode, only the margin you allocate to a specific position is at risk. If that position is liquidated, your other funds are safe."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the liquidation price calculated on Hyperliquid?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For isolated margin long positions, the liquidation price is approximately: Entry Price − (Allocated Margin − Maintenance Margin − Trading Fee) / Position Size. For short positions, the direction is reversed. Hyperliquid uses a maintenance margin rate of approximately 0.5% and a taker fee of 0.035%."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What leverage does Hyperliquid support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hyperliquid supports up to 50x leverage on major perpetual contracts like BTC and ETH, and varying maximum leverage on other assets. Higher leverage increases both potential profit and liquidation risk significantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is ROE in crypto trading?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ROE stands for Return on Equity. In leveraged crypto trading, ROE measures your profit or loss as a percentage of the margin you put in — not the total notional value. A 10x leveraged position that moves 5% in your favor gives a 50% ROE, even though the asset only moved 5%."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I use this crypto margin calculator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Select your asset (BTC, ETH, SOL, etc.), choose Long or Short direction, enter your entry price and position size, set your leverage using the slider or presets, then enter your wallet balance. The calculator will instantly show your required margin, liquidation price, max position size, and notional value. Use the PnL section to input your target and stop-loss prices to see estimated profit, loss, ROE, and risk/reward ratio."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #F0B429;
+    --gold-dim: rgba(240,180,41,0.15);
+    --gold-border: rgba(240,180,41,0.25);
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --card: #181818;
+    --card2: #1e1e1e;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f0f0;
+    --muted: #777;
+    --muted2: #555;
+    --green: #22c55e;
+    --red: #ef4444;
+    --blue: #60a5fa;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; color: var(--text); }
+  .nav-brand span { color: var(--gold); }
+  .nav-links { display: flex; gap: 1.5rem; font-size: 13px; color: var(--muted); }
+  .nav-links a { color: var(--muted); }
+  .nav-links a:hover { color: var(--text); text-decoration: none; }
+  .nav-cta { background: var(--gold); color: #111; font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 8px; }
+  .nav-cta:hover { opacity: 0.9; text-decoration: none; }
+
+  /* BREADCRUMB */
+  .breadcrumb {
+    max-width: 1100px; margin: 0 auto; padding: 12px 2.5rem 0;
+    font-size: 12px; color: var(--muted2);
+    display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+  }
+  .breadcrumb a { color: var(--muted); }
+  .breadcrumb span { color: var(--muted2); }
+
+  /* HERO */
+  .hero {
+    max-width: 1100px; margin: 0 auto;
+    padding: 3rem 2.5rem 2rem;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500; color: var(--gold);
+    background: var(--gold-dim); border: 0.5px solid var(--gold-border);
+    border-radius: 20px; padding: 4px 12px; margin-bottom: 1.25rem;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700; line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  h1 em { color: var(--gold); font-style: normal; }
+  .hero-desc {
+    font-size: 16px; color: var(--muted); max-width: 580px; margin: 0 auto 1.5rem;
+    line-height: 1.7;
+  }
+  .hero-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .hero-tag {
+    font-size: 12px; color: var(--muted);
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 20px; padding: 4px 12px;
+  }
+
+  /* CALCULATOR */
+  .calc-wrapper {
+    max-width: 1000px; margin: 0 auto 3rem;
+    padding: 0 2.5rem;
+  }
+  .calc-card {
+    background: var(--surface);
+    border: 0.5px solid var(--gold-border);
+    border-radius: 20px;
+    padding: 2rem;
+  }
+
+  .tab-row {
+    display: flex; gap: 6px;
+    background: var(--card); border-radius: 12px; padding: 4px;
+    margin-bottom: 1.5rem;
+  }
+  .tab-btn {
+    flex: 1; padding: 9px 0; border: none; border-radius: 9px;
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    background: transparent; color: var(--muted);
+    transition: all 0.15s; font-family: var(--font);
+  }
+  .tab-btn.active { background: var(--gold); color: #111; }
+
+  .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .input-box {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 12px; padding: 12px 14px;
+  }
+  .input-label {
+    font-size: 11px; color: var(--muted); margin-bottom: 5px;
+    display: flex; align-items: center; gap: 4px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .input-row { display: flex; align-items: center; gap: 6px; }
+  .input-row input, .input-row select {
+    background: transparent; border: none; outline: none;
+    font-size: 16px; font-weight: 500; color: var(--text);
+    width: 100%; font-family: var(--font);
+  }
+  .input-row select option { background: #222; }
+  .input-unit { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .input-full { grid-column: 1 / -1; }
+
+  .lev-row {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
+  }
+  .lev-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .lev-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .lev-val { font-size: 18px; font-weight: 700; color: var(--gold); }
+  .lev-slider { width: 100%; accent-color: var(--gold); height: 4px; cursor: pointer; }
+  .lev-presets { display: flex; gap: 6px; margin-top: 10px; }
+  .lev-preset {
+    flex: 1; padding: 5px 0; border: 0.5px solid var(--border);
+    border-radius: 7px; background: transparent; color: var(--muted);
+    font-size: 12px; cursor: pointer; font-family: var(--font);
+    transition: all 0.1s;
+  }
+  .lev-preset:hover, .lev-preset.active {
+    background: var(--gold-dim); color: var(--gold); border-color: var(--gold-border);
+  }
+
+  .divider { height: 0.5px; background: var(--border); margin: 1rem 0; }
+
+  /* RESULTS */
+  .results-label {
+    font-size: 11px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 10px;
+  }
+  .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .result-card {
+    background: var(--card2); border: 0.5px solid var(--border);
+    border-radius: 12px; padding: 12px 14px;
+  }
+  .result-card.featured { border-color: var(--gold-border); background: var(--gold-dim); }
+  .rc-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .rc-value { font-size: 20px; font-weight: 600; }
+  .rc-value.gold { color: var(--gold); }
+  .rc-value.green { color: var(--green); }
+  .rc-value.red { color: var(--red); }
+  .rc-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* PNL */
+  .pnl-section {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 12px; padding: 14px; margin-bottom: 10px;
+  }
+  .pnl-title {
+    font-size: 11px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pnl-title::before { content: ''; display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+  .pnl-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .pnl-input-wrap {
+    background: var(--card2); border: 0.5px solid var(--border);
+    border-radius: 9px; padding: 8px 10px;
+  }
+  .pnl-input-wrap input {
+    background: transparent; border: none; outline: none;
+    font-size: 14px; font-weight: 500; color: var(--text);
+    width: 100%; font-family: var(--font);
+  }
+  .pnl-sub-label { font-size: 10px; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .pnl-results { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .pnl-item { text-align: center; }
+  .pnl-item-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .pnl-item-val { font-size: 16px; font-weight: 600; margin-top: 4px; }
+
+  /* INFO */
+  .info-note {
+    display: flex; gap: 8px; align-items: flex-start;
+    background: var(--gold-dim); border: 0.5px solid var(--gold-border);
+    border-radius: 10px; padding: 10px 12px;
+    font-size: 12px; color: var(--muted); line-height: 1.6;
+  }
+  .info-note::before { content: 'ℹ'; color: var(--gold); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  /* CONTENT SECTION */
+  .content-section { max-width: 1000px; margin: 0 auto 3rem; padding: 0 2.5rem; }
+  .content-section h2 {
+    font-size: 1.4rem; font-weight: 600; margin-bottom: 1rem;
+    color: var(--text); letter-spacing: -0.01em;
+  }
+  .content-section h3 {
+    font-size: 1.05rem; font-weight: 600; color: var(--gold);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .content-section p { color: var(--muted); font-size: 15px; line-height: 1.75; margin-bottom: 0.75rem; }
+  .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.25rem 0; }
+  .content-card {
+    background: var(--card); border: 0.5px solid var(--border);
+    border-radius: 14px; padding: 1.25rem;
+  }
+  .content-card h3 { margin-top: 0; }
+  .mode-badge {
+    display: inline-block; font-size: 10px; font-weight: 600; padding: 3px 8px;
+    border-radius: 20px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .cross-badge { background: rgba(96,165,250,0.15); color: var(--blue); }
+  .iso-badge { background: var(--gold-dim); color: var(--gold); }
+
+  /* FAQ */
+  .faq-list { margin-top: 1.25rem; }
+  .faq-item {
+    border: 0.5px solid var(--border); border-radius: 12px;
+    margin-bottom: 8px; overflow: hidden;
+  }
+  .faq-q {
+    width: 100%; padding: 14px 16px; background: var(--card);
+    color: var(--text); font-size: 14px; font-weight: 500;
+    text-align: left; border: none; cursor: pointer; font-family: var(--font);
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.15s;
+  }
+  .faq-q:hover { background: var(--card2); }
+  .faq-q .arrow { color: var(--gold); font-size: 18px; transition: transform 0.2s; flex-shrink: 0; }
+  .faq-q.open .arrow { transform: rotate(45deg); }
+  .faq-a {
+    display: none; padding: 12px 16px 14px;
+    background: var(--surface); font-size: 14px; color: var(--muted); line-height: 1.75;
+  }
+  .faq-a.open { display: block; }
+
+  /* CTA BANNER */
+  .cta-banner {
+    max-width: 1000px; margin: 0 auto 3rem; padding: 0 2.5rem;
+  }
+  .cta-inner {
+    background: linear-gradient(135deg, #1a1400 0%, #111 100%);
+    border: 0.5px solid var(--gold-border);
+    border-radius: 20px; padding: 2rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .cta-text h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .cta-text p { font-size: 14px; color: var(--muted); margin: 0; }
+  .cta-btn {
+    background: var(--gold); color: #111; font-weight: 700;
+    padding: 12px 24px; border-radius: 10px; font-size: 14px; white-space: nowrap;
+    display: inline-block;
+  }
+  .cta-btn:hover { opacity: 0.9; text-decoration: none; }
+
+  /* FOOTER */
+  footer {
+    border-top: 0.5px solid var(--border);
+    max-width: 1000px; margin: 0 auto; padding: 2rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--muted2); flex-wrap: wrap; gap: 1rem;
+  }
+  footer a { color: var(--muted); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .input-grid, .results-grid, .pnl-results, .content-grid { grid-template-columns: 1fr; }
+    .pnl-inputs { grid-template-columns: 1fr; }
+    .pnl-results { grid-template-columns: 1fr 1fr; }
+    .cta-inner { flex-direction: column; text-align: center; }
+    nav { padding: 0 1rem; }
+    .nav-links { display: none; }
+    .calc-card { padding: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://myfxback.com" class="nav-brand" style="text-decoration:none">
+    <span>MyFX</span>Back
+  </a>
+  <div class="nav-links">
+    <a href="https://myfxback.com/brokers/compare">Compare Brokers</a>
+    <a href="https://myfxback.com/tools">Tools</a>
+    <a href="https://myfxback.com/cashback">Cashback</a>
+  </div>
+  <a href="https://myfxback.com/register" class="nav-cta">Get Cashback</a>
+</nav>
+
+<!-- BREADCRUMB -->
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <a href="https://myfxback.com">Home</a>
+  <span>›</span>
+  <a href="https://myfxback.com/tools">Tools</a>
+  <span>›</span>
+  <span>Crypto Margin Calculator</span>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eyebrow">Free Calculator · No Sign-up Required</div>
+  <h1>Crypto <em>Margin Calculator</em><br>for Hyperliquid Traders</h1>
+  <p class="hero-desc">
+    Calculate required margin, liquidation price, max position size, and PnL
+    for cross and isolated margin trades on Hyperliquid perps — instantly.
+  </p>
+  <div class="hero-tags">
+    <span class="hero-tag">BTC · ETH · SOL · ARB</span>
+    <span class="hero-tag">Up to 50x leverage</span>
+    <span class="hero-tag">Cross & isolated margin</span>
+    <span class="hero-tag">Real-time calculation</span>
+  </div>
+</header>
+
+<!-- CALCULATOR -->
+<main>
+<section class="calc-wrapper" id="calculator" aria-labelledby="calc-heading">
+  <h2 id="calc-heading" style="font-size:1.1rem;font-weight:500;color:var(--muted);margin-bottom:1rem;text-align:center;letter-spacing:0.02em;text-transform:uppercase;font-size:12px">
+    Crypto Margin Calculator
+  </h2>
+  <div class="calc-card">
+
+    <div class="tab-row" role="tablist">
+      <button class="tab-btn active" role="tab" aria-selected="true" onclick="setMode('cross',this)">Cross Margin</button>
+      <button class="tab-btn" role="tab" aria-selected="false" onclick="setMode('isolated',this)">Isolated Margin</button>
+    </div>
+
+    <div class="input-grid">
+      <div class="input-box">
+        <div class="input-label">Asset</div>
+        <div class="input-row">
+          <select id="asset" onchange="calc()">
+            <option value="BTC">BTC</option>
+            <option value="ETH">ETH</option>
+            <option value="SOL">SOL</option>
+            <option value="ARB">ARB</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-box">
+        <div class="input-label">Direction</div>
+        <div class="input-row">
+          <select id="direction" onchange="calc()">
+            <option value="long">Long ↑</option>
+            <option value="short">Short ↓</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-box">
+        <div class="input-label">Entry price</div>
+        <div class="input-row">
+          <input type="number" id="entry" value="65000" step="any" oninput="calc()" aria-label="Entry price in USDC" />
+          <span class="input-unit">USDC</span>
+        </div>
+      </div>
+      <div class="input-box">
+        <div class="input-label">Position size</div>
+        <div class="input-row">
+          <input type="number" id="size" value="0.1" step="any" oninput="calc()" aria-label="Position size" />
+          <span class="input-unit" id="size-unit">BTC</span>
+        </div>
+      </div>
+      <div class="input-box input-full" id="wallet-box">
+        <div class="input-label">Wallet balance</div>
+        <div class="input-row">
+          <input type="number" id="wallet" value="10000" step="any" oninput="calc()" aria-label="Wallet balance in USDC" />
+          <span class="input-unit">USDC</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lev-row">
+      <div class="lev-head">
+        <span class="lev-label">Leverage</span>
+        <span class="lev-val" id="lev-display">10x</span>
+      </div>
+      <input type="range" class="lev-slider" id="leverage" min="1" max="50" value="10" step="1"
+        oninput="updateLev(this.value);calc()" aria-label="Leverage slider" />
+      <div class="lev-presets">
+        <button class="lev-preset" onclick="setLev(2)">2x</button>
+        <button class="lev-preset" onclick="setLev(5)">5x</button>
+        <button class="lev-preset active" onclick="setLev(10)">10x</button>
+        <button class="lev-preset" onclick="setLev(20)">20x</button>
+        <button class="lev-preset" onclick="setLev(50)">50x</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="results-label">Results</div>
+
+    <div class="results-grid">
+      <div class="result-card featured">
+        <div class="rc-label">Required margin</div>
+        <div class="rc-value gold" id="r-margin">—</div>
+        <div class="rc-sub" id="r-margin-sub"></div>
+      </div>
+      <div class="result-card">
+        <div class="rc-label">Liquidation price</div>
+        <div class="rc-value red" id="r-liq">—</div>
+        <div class="rc-sub" id="r-liq-pct"></div>
+      </div>
+      <div class="result-card">
+        <div class="rc-label">Max position size</div>
+        <div class="rc-value" id="r-maxsize">—</div>
+        <div class="rc-sub" id="r-maxsize-sub"></div>
+      </div>
+      <div class="result-card">
+        <div class="rc-label">Notional value</div>
+        <div class="rc-value" id="r-notional">—</div>
+        <div class="rc-sub">entry × size</div>
+      </div>
+    </div>
+
+    <div class="pnl-section">
+      <div class="pnl-title">PnL estimator</div>
+      <div class="pnl-inputs">
+        <div class="pnl-input-wrap">
+          <div class="pnl-sub-label">Target price</div>
+          <input type="number" id="target" value="70000" step="any" oninput="calc()" placeholder="Exit price" />
+        </div>
+        <div class="pnl-input-wrap">
+          <div class="pnl-sub-label">Stop loss</div>
+          <input type="number" id="stoploss" value="62000" step="any" oninput="calc()" placeholder="Stop price" />
+        </div>
+      </div>
+      <div class="pnl-results">
+        <div class="pnl-item">
+          <div class="pnl-item-label">PnL target</div>
+          <div class="pnl-item-val" id="p-profit" style="color:var(--green)">—</div>
+        </div>
+        <div class="pnl-item">
+          <div class="pnl-item-label">ROE %</div>
+          <div class="pnl-item-val" id="p-roe" style="color:var(--green)">—</div>
+        </div>
+        <div class="pnl-item">
+          <div class="pnl-item-label">PnL stop</div>
+          <div class="pnl-item-val" id="p-loss" style="color:var(--red)">—</div>
+        </div>
+        <div class="pnl-item">
+          <div class="pnl-item-label">Risk/reward</div>
+          <div class="pnl-item-val" id="p-rr" style="color:var(--gold)">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-note" id="mode-desc-box">
+      <span id="mode-desc"></span>
+    </div>
+
+    <p style="font-size:11px;color:var(--muted2);text-align:center;margin-top:12px;line-height:1.6">
+      Based on Hyperliquid perp specs · Maintenance margin ~0.5% · Taker fee ~0.035%<br>
+      For educational purposes — always verify on platform before trading.
+    </p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="content-section" aria-labelledby="how-heading">
+  <h2 id="how-heading">How to use this crypto margin calculator</h2>
+  <p>
+    This free crypto margin calculator is built specifically for Hyperliquid perpetual contracts. Enter your trade parameters and get instant results — no sign-up required.
+  </p>
+  <ol style="color:var(--muted);font-size:15px;line-height:2;padding-left:1.25rem">
+    <li>Select your asset (BTC, ETH, SOL, ARB, or other)</li>
+    <li>Choose your direction — long or short</li>
+    <li>Enter your entry price and position size in base asset units</li>
+    <li>Input your wallet balance (used for cross margin liquidation calculation)</li>
+    <li>Set your leverage with the slider or quick preset buttons</li>
+    <li>Optionally enter a target and stop-loss price to see estimated PnL and risk/reward</li>
+  </ol>
+
+  <div class="content-grid" style="margin-top:1.5rem">
+    <div class="content-card">
+      <span class="mode-badge cross-badge">Cross margin</span>
+      <h3>Cross margin mode</h3>
+      <p>Your entire wallet balance acts as collateral across all positions. Losses from one position can be covered by gains in another, but a large losing position can drain your whole balance.</p>
+    </div>
+    <div class="content-card">
+      <span class="mode-badge iso-badge">Isolated margin</span>
+      <h3>Isolated margin mode</h3>
+      <p>Only the margin you assign to a position is at risk. If liquidated, the rest of your wallet is safe. Ideal for higher-risk trades where you want to limit downside exposure.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULA -->
+<section class="content-section" aria-labelledby="formula-heading">
+  <h2 id="formula-heading">Margin and liquidation price formulas</h2>
+  <p>
+    Understanding how your crypto margin calculator works helps you manage risk more effectively. Here are the core formulas used for Hyperliquid perps:
+  </p>
+  <h3>Required margin</h3>
+  <p>Required Margin = Notional Value ÷ Leverage<br>
+  Where Notional Value = Entry Price × Position Size</p>
+  <h3>Liquidation price — isolated long</h3>
+  <p>Liquidation Price = Entry Price − (Allocated Margin − Maintenance Margin − Fee) ÷ Position Size</p>
+  <h3>Liquidation price — isolated short</h3>
+  <p>Liquidation Price = Entry Price + (Allocated Margin − Maintenance Margin − Fee) ÷ Position Size</p>
+  <h3>ROE (Return on Equity)</h3>
+  <p>ROE % = PnL ÷ Required Margin × 100<br>
+  This is why a 10x leveraged trade moving 5% in your favor gives a 50% ROE on margin used.</p>
+</section>
+
+<!-- FAQ -->
+<section class="content-section" aria-labelledby="faq-heading">
+  <h2 id="faq-heading">Frequently asked questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What is a crypto margin calculator?
+        <span class="arrow">+</span>
+      </button>
+      <div class="faq-a">
+        A crypto margin calculator helps traders determine how much collateral (margin) is required to open a leveraged position, at what price their position will be liquidated, how large a position they can open with their available balance, and the estimated profit or loss at a given target or stop-loss price.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What is the difference between cross margin and isolated margin?
+        <span class="arrow">+</span>
+      </button>
+      <div class="faq-a">
+        In cross margin mode, your entire wallet balance acts as collateral for all open positions. This reduces liquidation risk for any single position but means a losing trade can drain your entire balance. In isolated margin mode, only the margin you allocate to a specific position is at risk — if liquidated, your other funds remain safe.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        How is the Hyperliquid liquidation price calculated?
+        <span class="arrow">+</span>
+      </button>
+      <div class="faq-a">
+        For isolated margin long positions: Liquidation Price = Entry Price − (Allocated Margin − Maintenance Margin − Trading Fee) ÷ Position Size. For short positions, the formula is reversed. Hyperliquid uses a maintenance margin rate of approximately 0.5% and a taker fee of 0.035%.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What leverage does Hyperliquid support?
+        <span class="arrow">+</span>
+      </button>
+      <div class="faq-a">
+        Hyperliquid supports up to 50x leverage on major perpetual contracts like BTC and ETH, and varying maximum leverage on other assets. Higher leverage dramatically increases both potential profit and liquidation risk — always use a crypto margin calculator to know your exact liquidation level before entering a trade.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        What does ROE mean in crypto trading?
+        <span class="arrow">+</span>
+      </button>
+      <div class="faq-a">
+        ROE stands for Return on Equity. In leveraged crypto trading, ROE measures your profit or loss as a percentage of the margin you put in — not the total notional value. A 10x leveraged position that moves 5% in your favor gives a 50% ROE, even though the asset only moved 5%.
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        Is this calculator accurate for Hyperliquid perps?
+        <span class="arrow">+</span>
+      </button>
+      <div class="faq-a">
+        This crypto margin calculator uses Hyperliquid's standard maintenance margin rate (~0.5%) and taker fee (~0.035%) for its formulas. Results are close approximations for educational use. Always verify exact margin requirements on the Hyperliquid platform before placing real trades, as rates may vary by asset or be updated by the exchange.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <h2>Trade forex? Get up to 85% cashback on every trade</h2>
+      <p>MyFXBack automatically rebates your IB commission back to you — no manual claims, no limits.</p>
+    </div>
+    <a href="https://myfxback.com/register" class="cta-btn">Start Getting Cashback →</a>
+  </div>
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 <a href="https://myfxback.com">MyFXBack.com</a> · Forex Cashback & Rebates since 2013</span>
+  <span>
+    <a href="https://myfxback.com/tools">All Tools</a> ·
+    <a href="https://myfxback.com/brokers/compare">Compare Brokers</a> ·
+    <a href="https://myfxback.com/cashback">Get Cashback</a>
+  </span>
+</footer>
+
+<script>
+let mode = 'cross';
+
+function setMode(m, btn) {
+  mode = m;
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+  const wb = document.getElementById('wallet-box');
+  wb.style.display = m === 'cross' ? '' : '';
+  calc();
+}
+
+function updateLev(v) {
+  document.getElementById('lev-display').textContent = v + 'x';
+  document.querySelectorAll('.lev-preset').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim() === v + 'x');
+  });
+}
+
+function setLev(v) {
+  document.getElementById('leverage').value = v;
+  updateLev(v);
+  calc();
+}
+
+function fmt(n, dec) {
+  if (isNaN(n) || !isFinite(n) || n < 0) return '—';
+  dec = (dec === undefined) ? 2 : dec;
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec});
+}
+
+function calc() {
+  const entry   = parseFloat(document.getElementById('entry').value)    || 0;
+  const size    = parseFloat(document.getElementById('size').value)     || 0;
+  const lev     = parseFloat(document.getElementById('leverage').value) || 1;
+  const wallet  = parseFloat(document.getElementById('wallet').value)   || 10000;
+  const target  = parseFloat(document.getElementById('target').value)   || 0;
+  const sl      = parseFloat(document.getElementById('stoploss').value) || 0;
+  const dir     = document.getElementById('direction').value;
+  const asset   = document.getElementById('asset').value;
+
+  document.getElementById('size-unit').textContent = asset === 'OTHER' ? 'units' : asset;
+
+  if (!entry || !size) return;
+
+  const notional  = entry * size;
+  const mmRate    = 0.005;
+  const feeRate   = 0.00035;
+  const reqMargin = notional / lev;
+
+  let liqPrice;
+  if (mode === 'isolated') {
+    const mmAbs = notional * mmRate;
+    const fee   = notional * feeRate;
+    liqPrice = dir === 'long'
+      ? entry - (reqMargin - mmAbs - fee) / size
+      : entry + (reqMargin - mmAbs - fee) / size;
+  } else {
+    const mmAbs = wallet * mmRate;
+    liqPrice = dir === 'long'
+      ? entry - (wallet - mmAbs) / size
+      : entry + (wallet - mmAbs) / size;
+  }
+
+  const maxSize = wallet * lev / entry;
+  const liqPct  = ((Math.abs(entry - liqPrice) / entry) * 100).toFixed(2);
+
+  document.getElementById('r-margin').textContent    = fmt(reqMargin);
+  document.getElementById('r-margin-sub').textContent = lev + 'x leverage · ' + (mode === 'isolated' ? 'isolated' : 'cross');
+  document.getElementById('r-liq').textContent       = liqPrice > 0 ? fmt(liqPrice) : '—';
+  document.getElementById('r-liq-pct').textContent   = liqPrice > 0 ? liqPct + '% from entry' : '';
+  document.getElementById('r-maxsize').textContent   = maxSize.toFixed(4) + ' ' + (asset === 'OTHER' ? 'units' : asset);
+  document.getElementById('r-maxsize-sub').textContent = fmt(maxSize * entry) + ' notional';
+  document.getElementById('r-notional').textContent  = fmt(notional);
+
+  if (target && size && entry) {
+    const pnlP = dir === 'long' ? (target - entry) * size : (entry - target) * size;
+    const pnlL = sl ? (dir === 'long' ? (sl - entry) * size : (entry - sl) * size) : null;
+    const roe  = (pnlP / reqMargin) * 100;
+    const rr   = pnlL && pnlL !== 0 ? (Math.abs(pnlP / pnlL)).toFixed(2) : '—';
+
+    const profitEl = document.getElementById('p-profit');
+    const roeEl    = document.getElementById('p-roe');
+    const lossEl   = document.getElementById('p-loss');
+
+    profitEl.textContent = (pnlP >= 0 ? '+' : '') + '$' + Math.abs(pnlP).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+    profitEl.style.color = pnlP >= 0 ? 'var(--green)' : 'var(--red)';
+
+    roeEl.textContent = (roe >= 0 ? '+' : '') + roe.toFixed(2) + '%';
+    roeEl.style.color = roe >= 0 ? 'var(--green)' : 'var(--red)';
+
+    if (pnlL !== null) {
+      lossEl.textContent = (pnlL >= 0 ? '+' : '') + '$' + Math.abs(pnlL).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+      lossEl.style.color = pnlL < 0 ? 'var(--red)' : 'var(--green)';
+    }
+    document.getElementById('p-rr').textContent = rr !== '—' ? '1 : ' + rr : '—';
+  }
+
+  const infoMap = {
+    cross: 'Cross margin: your entire wallet balance is collateral. Liquidation occurs when your wallet can no longer cover maintenance margin across all positions.',
+    isolated: 'Isolated margin: only the margin allocated to this position is at risk. Other funds in your wallet are safe if this position is liquidated.'
+  };
+  document.getElementById('mode-desc').textContent = infoMap[mode];
+}
+
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(b => b.classList.remove('open'));
+  if (!isOpen) {
+    answer.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+
+updateLev(10);
+calc();
+</script>
+</body>
+</html>
